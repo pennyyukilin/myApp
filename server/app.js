@@ -2,6 +2,10 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const schema = require('./schema/schema');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
+
+const app = express();
 
 //connect to mlabl db
 mongoose.connect("mongodb+srv://penny:test123@cluster0-xu3u7.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -10,9 +14,10 @@ mongoose.connection.once('open',()=>{
 });
 
 
+//allow cross-origin requests
+app.use(cors());
 
 
-const app = express();
 app.use("/graphql", graphqlHTTP({
     schema,
     graphiql:true
